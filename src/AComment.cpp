@@ -375,7 +375,7 @@ AComment::AComment()
 	 m_CommentDescriptionTxt =_T("");
 	 m_CommentAuthorTxt = _T("");
 	 // default width change it using SetCommentWidth()
-	 m_CommentWidth = 50;
+	 m_CommentWidth = 80;
 
 }
 

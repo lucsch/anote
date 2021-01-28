@@ -16,6 +16,12 @@
 
 #include "../include/main.h"
 
+extern const char* Anote_MAJOR_VERSION;
+extern const char* Anote_MINOR_VERSION;
+extern const char* GIT_REV;
+extern const char* GIT_TAG;
+extern const char* GIT_BRANCH;
+extern const char* GIT_NUMBER;
 
 
 /* Application initialisation */
@@ -80,13 +86,9 @@ void ANote::PostInit()
 {
 	// post init controls
 	m_Function_List_Param->SetChoiceList(m_Listparam_Choice);
-	
-	
-	// change application name for adding svn revision number.
-	wxString sAppName = SYMBOL_ANOTE_REVISION;
-	sAppName = sAppName.Mid(11, 3);
-	sAppName.Prepend(_T("Anote - 3.0."));
-	SetTitle(sAppName);
+
+        wxString my_app_name = wxString::Format("Anote - %s.%s.%s", Anote_MAJOR_VERSION, Anote_MINOR_VERSION, GIT_NUMBER);
+	SetTitle(my_app_name);
 	
 	// load settings from config here
 	wxString myTempAuthor = _T("");

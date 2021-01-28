@@ -1,0 +1,6 @@
+[requires]
+wxwidgets/3.1.4@bincrafters/stable
+
+[generators]
+cmake
+

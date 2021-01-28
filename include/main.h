@@ -59,7 +59,6 @@ class wxDatePickerCtrl;
 #define SYMBOL_ANOTE_SIZE wxDefaultSize
 #define SYMBOL_ANOTE_POSITION wxDefaultPosition
 ////@end control identifiers
-#define SYMBOL_ANOTE_REVISION _T("$Revision: 29 $")
 
 class AnoteApp : public wxApp
 {
@@ -68,7 +67,6 @@ public:
 	
 };
 IMPLEMENT_APP(AnoteApp);
-
 
 
 class ANote: public wxDialog
