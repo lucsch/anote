@@ -1,0 +1,42 @@
+<mockup version="1.0" skin="sketch" measuredW="1240" measuredH="524" mockupW="1109" mockupH="464">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::TitleWindow" x="131" y="60" w="662" h="464" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <dragger>true</dragger>
+        <text>Anote</text>
+      </controlProperties>
+    </control>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::Label" x="934" y="113" w="-1" h="-1" measuredW="107" measuredH="21" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Comment%20Width%3A%20</text>
+      </controlProperties>
+    </control>
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::NumericStepper" x="1048" y="112" w="192" h="-1" measuredW="49" measuredH="24" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>80</text>
+      </controlProperties>
+    </control>
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::Label" x="986" y="151" w="-1" h="-1" measuredW="47" measuredH="21" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Author%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::TextInput" x="1048" y="147" w="192" h="-1" measuredW="79" measuredH="27" zOrder="4" locked="false" isInGroup="-1"/>
+    <control controlID="10" controlTypeID="com.balsamiq.mockups::ComboBox" x="958" y="280" w="178" h="-1" measuredW="51" measuredH="62" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>File%0AClass%2C%20variable%2C%20structure%0AFunction</text>
+      </controlProperties>
+    </control>
+    <control controlID="11" controlTypeID="com.balsamiq.mockups::Label" x="824" y="281" w="-1" h="-1" measuredW="127" measuredH="21" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Comment%20Template%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="12" controlTypeID="com.balsamiq.mockups::List" x="131" y="195" w="163" h="308" measuredW="100" measuredH="128" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>@brief%0A@file%0A@param%0A@return%0A@author%0A@date</text>
+      </controlProperties>
+    </control>
+    <control controlID="13" controlTypeID="com.balsamiq.mockups::DataGrid" x="288" y="197" w="505" h="306" measuredW="322" measuredH="197" zOrder="8" locked="false" isInGroup="-1"/>
+  </controls>
+</mockup>
