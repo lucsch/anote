@@ -27,9 +27,7 @@ extern const char* GIT_NUMBER;
 /* Application initialisation */
 bool AnoteApp::OnInit()
 {
-	wxSystemOptions::SetOption( wxT("mac.listctrl.always_use_generic"), 1 ); 
 	ANote * MyNote = new ANote(NULL,0L);
-	//MyNote->CenterOnScreen(wxBOTH);
 	MyNote->Show();
 	SetTopWindow(MyNote);	
 	return true;
