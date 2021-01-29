@@ -6,8 +6,8 @@
 #ifndef WX_PRECOMP
 #include "wx/wx.h"
 #endif
-
-enum { ID_QUIT = wxID_EXIT, ID_ABOUT = wxID_ABOUT };
+#include "wx/notebook.h"
+#include "wx/listctrl.h"
 
 class AnoteFrame : public wxFrame {
  public:
@@ -15,6 +15,7 @@ class AnoteFrame : public wxFrame {
 
   void OnQuit(wxCommandEvent &event);
   void OnAbout(wxCommandEvent &event);
+  void OnGenerate(wxCommandEvent & event);
 
  private:
   void _create_menubar();
@@ -23,7 +24,21 @@ class AnoteFrame : public wxFrame {
   void _create_controls();
 
  protected:
-  wxTextCtrl *m_text_ctrl;
+  wxNotebook* m_ctrl_notebook;
+  wxPanel* m_ctrl_panel_general;
+  wxTextCtrl* m_ctrl_general_brief;
+  wxTextCtrl* m_ctrl_general_filename;
+  wxTextCtrl* m_ctrl_general_description;
+  wxPanel* m_ctrl_panel_function;
+  wxTextCtrl* m_ctrl_function_def;
+  wxButton* m_ctrl_paste_btn;
+  wxTextCtrl* m_ctrl_function_brief;
+  wxTextCtrl* m_ctrl_function_desc;
+  wxListCtrl* m_ctrl_function_list;
+
+  wxMenuItem* m_menu_generate;
+  wxMenuItem* m_menu_exit;
+  wxMenuItem* m_menu_about;
 };
 
 #endif

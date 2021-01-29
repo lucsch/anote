@@ -9,7 +9,7 @@ bool AnoteApp::OnInit() {
     return false;
   }
 
-  AnoteFrame *frame = new AnoteFrame("Minimal wxWidgets App");
+  AnoteFrame *frame = new AnoteFrame("Anote");
   frame->Show(true);
   return true;
 }
