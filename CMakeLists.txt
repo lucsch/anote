@@ -14,13 +14,9 @@ include(cmake_modules/version.cmake)
 FILE (GLOB SRC_FILES src/*.cpp)
 SOURCE_GROUP (source FILES ${SRC_FILES})
 
-# search all headers files
-FILE (GLOB HEAD_FILES include/*.h)
-SOURCE_GROUP (header FILES ${HEAD_FILES})
-
 # osx icon
-set(MACOSX_BUNDLE_ICON_FILE Anote_icon.icns)
-set(ICON_PATH "${CMAKE_SOURCE_DIR}/art/Anote_icon.icns")
+set(MACOSX_BUNDLE_ICON_FILE anote_icon.icns)
+set(ICON_PATH "${CMAKE_SOURCE_DIR}/art/anote_icon.icns")
 set_source_files_properties(${ICON_PATH} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
 
 include_directories(include)
@@ -28,7 +24,7 @@ add_executable(${PROJECT_NAME} MACOSX_BUNDLE WIN32
 		${SRC_FILES}
 		${CMAKE_BINARY_DIR}/version.cpp
 		${ICON_PATH}
-		src/anote.rc)
+		src/resource.rc)
 target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
 
 
