@@ -29,6 +29,9 @@ AnoteFrame::AnoteFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title
   m_ctrl_function_list->AppendColumn("Description", wxLIST_FORMAT_LEFT, 400);
   m_ctrl_function_list->AppendColumn("Type", wxLIST_FORMAT_LEFT, 200);
   m_settings.LoadFromIni();
+
+  m_function_types.push_back("Parameters");
+  m_function_types.push_back("Return value");
 }
 
 void AnoteFrame::_connect_events() {
@@ -38,6 +41,7 @@ void AnoteFrame::_connect_events() {
   Bind(wxEVT_MENU, &AnoteFrame::OnSettings, this, m_menu_settings->GetId());
   Bind(wxEVT_BUTTON, &AnoteFrame::OnFunctionPaste, this, m_ctrl_paste_btn->GetId());
   Bind(wxEVT_TEXT, &AnoteFrame::OnFunctionTxtUpdate, this, m_ctrl_function_def->GetId());
+  Bind(wxEVT_LIST_ITEM_ACTIVATED, &AnoteFrame::OnfunctionListDoubleClick, this, m_ctrl_function_list->GetId());
 }
 
 void AnoteFrame::_create_statusbar() {
@@ -147,9 +151,45 @@ void AnoteFrame::OnFunctionTxtUpdate(wxCommandEvent& event) {
   m_ctrl_function_list->DeleteAllItems();
   for(unsigned int i = 0; i<my_function_parameters_txt.GetCount(); i++){
     m_ctrl_function_list->InsertItem(i, my_function_parameters_txt[i]);
-    m_ctrl_function_list->SetItem(i, 2, "Param");
+    m_ctrl_function_list->SetItem(i, 2, m_function_types[0]);
   }
 
+}
+
+void AnoteFrame::OnfunctionListDoubleClick(wxListEvent& event) {
+  // get item value
+  wxString myparam = m_ctrl_function_list->GetItemText(event.GetIndex(), 0);
+  wxString mydesc = m_ctrl_function_list->GetItemText(event.GetIndex(), 1);
+  wxString mytype = m_ctrl_function_list->GetItemText(event.GetIndex(), 2);
+
+  // get column clicked
+  wxPoint mouse_pos = m_ctrl_function_list->ScreenToClient(wxGetMousePosition());
+  wxPoint my_scroll_pos = m_ctrl_function_list->CalcScrolledPosition(mouse_pos);
+  int x = my_scroll_pos.x - mouse_pos.x;
+  int column;
+  for (column = 0; column < m_ctrl_function_list->GetColumnCount(); column++) {
+    x += m_ctrl_function_list->GetColumnWidth(column);
+    if (x > mouse_pos.x) {
+      break;
+    }
+  }
+  // wxLogDebug("column clicked: %d", column);
+  if (column == 1) {  // description
+    wxTextEntryDialog dlg(this, _("Description"), _("Description"), mydesc);
+    if (dlg.ShowModal() != wxID_OK) {
+      return;
+    }
+    m_ctrl_function_list->SetItem(event.GetIndex(), 1, dlg.GetValue());
+    return;
+  }
+  if (column == 2) {
+    wxSingleChoiceDialog dlg(this, _("Type"), _("Select a type:"), m_function_types);
+    dlg.SetSelection(m_function_types.Index(mytype));
+    if (dlg.ShowModal() != wxID_OK) {
+      return;
+    }
+    m_ctrl_function_list->SetItem(event.GetIndex(), 2, dlg.GetStringSelection());
+  }
 }
 
 void AnoteFrame::_create_controls() {

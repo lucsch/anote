@@ -20,6 +20,7 @@ class AnoteFrame : public wxFrame {
   void OnSettings(wxCommandEvent & event);
   void OnFunctionPaste(wxCommandEvent & event);
   void OnFunctionTxtUpdate(wxCommandEvent & event);
+  void OnfunctionListDoubleClick(wxListEvent & event);
 
  private:
   void _create_menubar();
@@ -28,6 +29,7 @@ class AnoteFrame : public wxFrame {
   void _create_controls();
 
   AnoteSettings m_settings;
+  wxArrayString m_function_types;
 
  protected:
   wxNotebook* m_ctrl_notebook;
