@@ -41,7 +41,8 @@ void AnoteFrame::_connect_events() {
   Bind(wxEVT_MENU, &AnoteFrame::OnSettings, this, m_menu_settings->GetId());
   Bind(wxEVT_BUTTON, &AnoteFrame::OnFunctionPaste, this, m_ctrl_paste_btn->GetId());
   Bind(wxEVT_TEXT, &AnoteFrame::OnFunctionTxtUpdate, this, m_ctrl_function_def->GetId());
-  Bind(wxEVT_LIST_ITEM_ACTIVATED, &AnoteFrame::OnfunctionListDoubleClick, this, m_ctrl_function_list->GetId());
+  Bind(wxEVT_LIST_ITEM_ACTIVATED, &AnoteFrame::OnFunctionListDoubleClick, this, m_ctrl_function_list->GetId());
+  Bind(wxEVT_LIST_KEY_DOWN, &AnoteFrame::OnFunctionListDelete, this, m_ctrl_function_list->GetId());
 }
 
 void AnoteFrame::_create_statusbar() {
@@ -156,7 +157,7 @@ void AnoteFrame::OnFunctionTxtUpdate(wxCommandEvent& event) {
 
 }
 
-void AnoteFrame::OnfunctionListDoubleClick(wxListEvent& event) {
+void AnoteFrame::OnFunctionListDoubleClick(wxListEvent& event) {
   // get item value
   wxString myparam = m_ctrl_function_list->GetItemText(event.GetIndex(), 0);
   wxString mydesc = m_ctrl_function_list->GetItemText(event.GetIndex(), 1);
@@ -190,6 +191,14 @@ void AnoteFrame::OnfunctionListDoubleClick(wxListEvent& event) {
     }
     m_ctrl_function_list->SetItem(event.GetIndex(), 2, dlg.GetStringSelection());
   }
+}
+
+void AnoteFrame::OnFunctionListDelete(wxListEvent& event) {
+  int my_key_code = event.GetKeyCode();
+  if (my_key_code == WXK_DELETE or my_key_code == WXK_BACK){
+    m_ctrl_function_list->DeleteItem(event.GetIndex());
+  }
+  event.Skip();
 }
 
 void AnoteFrame::_create_controls() {
