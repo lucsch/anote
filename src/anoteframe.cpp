@@ -1,6 +1,6 @@
 
 #include "anoteframe.h"
-
+#include "settingsdialog.h"
 #include "anotecomment.h"
 #include "bitmap.h"
 #include "wx/clipbrd.h"
@@ -23,6 +23,8 @@ AnoteFrame::AnoteFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title
   _create_menubar();
   _create_statusbar();
   _connect_events();
+
+  m_settings.LoadFromIni();
 }
 
 void AnoteFrame::_connect_events() {
@@ -108,6 +110,7 @@ void AnoteFrame::OnSettings(wxCommandEvent& WXUNUSED(event)) {
     return;
   }
   m_settings = my_dlg.GetSettings();
+  m_settings.SaveToIni();
 }
 
 void AnoteFrame::_create_controls() {

@@ -6,10 +6,9 @@
 #ifndef WX_PRECOMP
 #include "wx/wx.h"
 #endif
-#include "wx/notebook.h"
+#include "settings.h"
 #include "wx/listctrl.h"
-#include "settingsdialog.h"
-
+#include "wx/notebook.h"
 
 class AnoteFrame : public wxFrame {
  public:

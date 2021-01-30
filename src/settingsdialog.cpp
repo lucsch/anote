@@ -1,13 +1,6 @@
 #include "settingsdialog.h"
 #include "anotecomment.h"
 
-AnoteSettings::AnoteSettings() {
-  m_comment_length = 100;
-  m_selected_template = 0;
-  m_use_date = true;
-  m_date = wxDateTime::Now();
-}
-
 const AnoteSettings& SettingsDialog::GetSettings() const {
   return m_settings;
 }
