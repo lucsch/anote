@@ -90,6 +90,10 @@ void AnoteFrame::OnGenerate(wxCommandEvent& WXUNUSED(event)) {
   AnoteComment myComment(m_ctrl_general_brief->GetValue(), m_ctrl_general_filename->GetValue(),
                          m_ctrl_general_description->GetValue());
   myComment.SetTemplateIndex(m_settings.m_selected_template);
+  myComment.SetAuthor(m_settings.m_author_name);
+  if (m_settings.m_use_date){
+    myComment.SetDate(m_settings.m_date.FormatISODate());
+  }
   wxString my_txt = myComment.GenerateComment();
   if (my_txt == wxEmptyString) {
     wxLogWarning(_("Comment is empty!"));

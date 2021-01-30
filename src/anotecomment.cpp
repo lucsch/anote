@@ -50,6 +50,13 @@ wxString AnoteComment::GenerateComment() {
     myDescription_multiline.Replace("\n", "\n " + actual_template.m_begin_line_char);
     body_text << actual_template.m_begin_line_char << " @details " << myDescription_multiline << "\n";
   }
+  if (m_author != wxEmptyString){
+    body_text << actual_template.m_begin_line_char << " @author " << m_author << "\n";
+  }
+  if (m_date != wxEmptyString){
+    body_text << actual_template.m_begin_line_char << " @date " << m_date << "\n";
+  }
+
   body_text = body_text.Trim();
   wxString myComment = wxString::Format(actual_template.m_template, stars_text, body_text, stars_text);
   return myComment;
@@ -65,4 +72,12 @@ wxArrayString AnoteComment::GetTemplateNames() {
 
 void AnoteComment::SetTemplateIndex(int mTemplateIndex) {
   m_template_index = mTemplateIndex;
+}
+
+void AnoteComment::SetAuthor(const wxString& mAuthor) {
+  m_author = mAuthor;
+}
+
+void AnoteComment::SetDate(const wxString& mDate) {
+  m_date = mDate;
 }

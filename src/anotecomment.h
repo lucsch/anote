@@ -18,14 +18,19 @@ class AnoteComment {
   wxString GenerateComment();
   static wxArrayString GetTemplateNames();
   void SetTemplateIndex(int mTemplateIndex);
+  void SetAuthor(const wxString& mAuthor);
+  void SetDate(const wxString& mDate);
 
  private:
   wxString m_brief;
   wxString m_filename;
-  wxString m_description;
 
+  wxString m_description;
   int m_template_index;
+
   static wxVector<AnoteCommentTemplate> m_templates;
+  wxString m_author;
+  wxString m_date;
 };
 
 
