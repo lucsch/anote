@@ -29,14 +29,17 @@ void AnoteFrame::_connect_events() {
   Bind(wxEVT_MENU, &AnoteFrame::OnQuit, this, wxID_EXIT);
   Bind(wxEVT_MENU, &AnoteFrame::OnAbout, this, wxID_ABOUT);
   Bind(wxEVT_MENU, &AnoteFrame::OnGenerate, this, m_menu_generate->GetId());
+  Bind(wxEVT_MENU, &AnoteFrame::OnSettings, this, m_menu_settings->GetId());
+
 }
 
 void AnoteFrame::_create_statusbar() {
-  CreateStatusBar(2);
+  SetStatusBarPane(-1);
+  CreateStatusBar(1);
   wxString myVersion;
   myVersion << "Version: " << Anote_MAJOR_VERSION << "." << Anote_MINOR_VERSION << "." << GIT_NUMBER;
   myVersion << "(" << GIT_REV << ")";
-  SetStatusText(myVersion, 1);
+  SetStatusText(myVersion, 0);
 }
 
 void AnoteFrame::_create_menubar() {
@@ -47,6 +50,10 @@ void AnoteFrame::_create_menubar() {
   m_menu_generate = new wxMenuItem(filemenu, wxID_ANY, wxString(_("Generate comment")) + wxT('\t') + wxT("Ctrl+G"),
                                    wxEmptyString, wxITEM_NORMAL);
   filemenu->Append(m_menu_generate);
+
+  m_menu_settings = new wxMenuItem(filemenu, wxID_PREFERENCES, wxString(_("Settings...")) + wxT('\t') + wxT("Ctrl+,"),
+                                   wxEmptyString, wxITEM_NORMAL);
+  filemenu->Append(m_menu_settings);
 
   m_menu_exit = new wxMenuItem(filemenu, wxID_EXIT, wxString(_("Quit")) + wxT('\t') + wxT("Ctrl+Q"), wxEmptyString,
                                wxITEM_NORMAL);
@@ -80,12 +87,27 @@ void AnoteFrame::OnAbout(wxCommandEvent& WXUNUSED(event)) {
 void AnoteFrame::OnGenerate(wxCommandEvent& WXUNUSED(event)) {
   AnoteComment myComment(m_ctrl_general_brief->GetValue(), m_ctrl_general_filename->GetValue(),
                          m_ctrl_general_description->GetValue());
+  myComment.SetTemplateIndex(m_settings.m_selected_template);
   wxString my_txt = myComment.GenerateComment();
+  if (my_txt == wxEmptyString) {
+    wxLogWarning(_("Comment is empty!"));
+    return;
+  }
+
   // copy to the clipboard
   if (wxTheClipboard->Open()) {
     wxTheClipboard->SetData(new wxTextDataObject(my_txt));
     wxTheClipboard->Close();
   }
+}
+
+void AnoteFrame::OnSettings(wxCommandEvent& WXUNUSED(event)) {
+  SettingsDialog my_dlg(this);
+  my_dlg.SetSettings(m_settings);
+  if (my_dlg.ShowModal() != wxID_OK){
+    return;
+  }
+  m_settings = my_dlg.GetSettings();
 }
 
 void AnoteFrame::_create_controls() {
@@ -226,3 +248,4 @@ void AnoteFrame::_create_controls() {
   this->SetSizer(bSizer1);
   this->Layout();
 }
+

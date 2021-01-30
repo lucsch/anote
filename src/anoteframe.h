@@ -8,6 +8,8 @@
 #endif
 #include "wx/notebook.h"
 #include "wx/listctrl.h"
+#include "settingsdialog.h"
+
 
 class AnoteFrame : public wxFrame {
  public:
@@ -16,12 +18,15 @@ class AnoteFrame : public wxFrame {
   void OnQuit(wxCommandEvent &event);
   void OnAbout(wxCommandEvent &event);
   void OnGenerate(wxCommandEvent & event);
+  void OnSettings(wxCommandEvent & event);
 
  private:
   void _create_menubar();
   void _create_statusbar();
   void _connect_events();
   void _create_controls();
+
+  AnoteSettings m_settings;
 
  protected:
   wxNotebook* m_ctrl_notebook;
@@ -37,6 +42,7 @@ class AnoteFrame : public wxFrame {
   wxListCtrl* m_ctrl_function_list;
 
   wxMenuItem* m_menu_generate;
+  wxMenuItem* m_menu_settings;
   wxMenuItem* m_menu_exit;
   wxMenuItem* m_menu_about;
 };
