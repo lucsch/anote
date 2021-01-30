@@ -223,7 +223,7 @@ void AnoteFrame::_create_controls() {
   sbSizer3 = new wxStaticBoxSizer(new wxStaticBox(m_ctrl_panel_function, wxID_ANY, _("Parameters")), wxVERTICAL);
 
   m_ctrl_function_list = new wxListCtrl(sbSizer3->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize,
-                                        wxLC_EDIT_LABELS | wxLC_ICON | wxLC_REPORT);
+                                        wxLC_EDIT_LABELS | wxLC_REPORT);
   sbSizer3->Add(m_ctrl_function_list, 2, wxALL | wxEXPAND, 5);
 
   bSizer6->Add(sbSizer3, 3, wxEXPAND | wxALL, 5);

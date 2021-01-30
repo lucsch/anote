@@ -1,3 +1,2 @@
 #include "wx/msw/wx.rc"
-
-test_wxwidgets ICON "../art/conan_icon.ico"
+Anote ICON "../art/anote_icon.ico"
