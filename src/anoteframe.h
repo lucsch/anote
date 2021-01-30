@@ -18,6 +18,8 @@ class AnoteFrame : public wxFrame {
   void OnAbout(wxCommandEvent &event);
   void OnGenerate(wxCommandEvent & event);
   void OnSettings(wxCommandEvent & event);
+  void OnFunctionPaste(wxCommandEvent & event);
+  void OnFunctionTxtUpdate(wxCommandEvent & event);
 
  private:
   void _create_menubar();

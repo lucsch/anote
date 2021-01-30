@@ -4,6 +4,7 @@
 #include "anotecomment.h"
 #include "bitmap.h"
 #include "wx/clipbrd.h"
+#include "wx/tokenzr.h"
 
 extern const char* Anote_MAJOR_VERSION;
 extern const char* Anote_MINOR_VERSION;
@@ -24,6 +25,9 @@ AnoteFrame::AnoteFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title
   _create_statusbar();
   _connect_events();
 
+  m_ctrl_function_list->AppendColumn("Name", wxLIST_FORMAT_LEFT, 100);
+  m_ctrl_function_list->AppendColumn("Description", wxLIST_FORMAT_LEFT, 400);
+  m_ctrl_function_list->AppendColumn("Type", wxLIST_FORMAT_LEFT, 200);
   m_settings.LoadFromIni();
 }
 
@@ -32,7 +36,8 @@ void AnoteFrame::_connect_events() {
   Bind(wxEVT_MENU, &AnoteFrame::OnAbout, this, wxID_ABOUT);
   Bind(wxEVT_MENU, &AnoteFrame::OnGenerate, this, m_menu_generate->GetId());
   Bind(wxEVT_MENU, &AnoteFrame::OnSettings, this, m_menu_settings->GetId());
-
+  Bind(wxEVT_BUTTON, &AnoteFrame::OnFunctionPaste, this, m_ctrl_paste_btn->GetId());
+  Bind(wxEVT_TEXT, &AnoteFrame::OnFunctionTxtUpdate, this, m_ctrl_function_def->GetId());
 }
 
 void AnoteFrame::_create_statusbar() {
@@ -115,6 +120,36 @@ void AnoteFrame::OnSettings(wxCommandEvent& WXUNUSED(event)) {
   }
   m_settings = my_dlg.GetSettings();
   m_settings.SaveToIni();
+}
+
+void AnoteFrame::OnFunctionPaste(wxCommandEvent& WXUNUSED(event)) {
+  if (wxTheClipboard->Open()) {
+    if (wxTheClipboard->IsSupported(wxDF_TEXT) or wxTheClipboard->IsSupported(wxDF_UNICODETEXT) or wxTheClipboard->IsSupported(wxDF_HTML)) {
+      wxTextDataObject data;
+      wxTheClipboard->GetData(data);
+      m_ctrl_function_def->SetValue(data.GetText());
+    }
+    wxTheClipboard->Close();
+  }
+}
+
+void AnoteFrame::OnFunctionTxtUpdate(wxCommandEvent& event) {
+  if(m_ctrl_function_def->GetValue() == wxEmptyString){
+    return;
+  }
+
+  wxArrayString my_function_parameters_txt;
+  wxStringTokenizer tokenizer(m_ctrl_function_def->GetValue(), " ");
+  while ( tokenizer.HasMoreTokens() ){
+    my_function_parameters_txt.Add(tokenizer.GetNextToken());
+  }
+
+  m_ctrl_function_list->DeleteAllItems();
+  for(unsigned int i = 0; i<my_function_parameters_txt.GetCount(); i++){
+    m_ctrl_function_list->InsertItem(i, my_function_parameters_txt[i]);
+    m_ctrl_function_list->SetItem(i, 2, "Param");
+  }
+
 }
 
 void AnoteFrame::_create_controls() {
@@ -255,4 +290,3 @@ void AnoteFrame::_create_controls() {
   this->SetSizer(bSizer1);
   this->Layout();
 }
-
