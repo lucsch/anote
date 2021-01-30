@@ -30,7 +30,6 @@ class AnoteFrame : public wxFrame {
   void _create_controls();
 
   AnoteSettings m_settings;
-  wxArrayString m_function_types;
 
  protected:
   wxNotebook* m_ctrl_notebook;

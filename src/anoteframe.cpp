@@ -29,9 +29,6 @@ AnoteFrame::AnoteFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title
   m_ctrl_function_list->AppendColumn("Description", wxLIST_FORMAT_LEFT, 400);
   m_ctrl_function_list->AppendColumn("Type", wxLIST_FORMAT_LEFT, 200);
   m_settings.LoadFromIni();
-
-  m_function_types.push_back("Parameters");
-  m_function_types.push_back("Return value");
 }
 
 void AnoteFrame::_connect_events() {
@@ -97,14 +94,33 @@ void AnoteFrame::OnAbout(wxCommandEvent& WXUNUSED(event)) {
 }
 
 void AnoteFrame::OnGenerate(wxCommandEvent& WXUNUSED(event)) {
-  AnoteComment myComment(m_ctrl_general_brief->GetValue(), m_ctrl_general_filename->GetValue(),
-                         m_ctrl_general_description->GetValue());
+  // getting all comment parameters
+  AnoteCommentParameters param;
+  param.m_gen_filename = m_ctrl_general_filename->GetValue();
+  param.m_gen_brief = m_ctrl_general_brief->GetValue();
+  param.m_gen_description = m_ctrl_general_description->GetValue();
+  param.m_function_brief = m_ctrl_function_brief->GetValue();
+  param.m_function_description = m_ctrl_function_desc->GetValue();
+  for(unsigned int i = 0; i<m_ctrl_function_list->GetItemCount();i++){
+    param.AddFunctionParameter(m_ctrl_function_list->GetItemText(i, 0),
+                               m_ctrl_function_list->GetItemText(i, 1),
+                               AnoteCommentParameters::GetFunctionTypes().Index(m_ctrl_function_list->GetItemText(i,2)));
+  }
+  if(m_ctrl_notebook->GetSelection() == 1){
+    param.m_generic_comment = false;
+  }
+
+  // sending settigns to the comment
+  AnoteComment myComment;
   myComment.SetTemplateIndex(m_settings.m_selected_template);
   myComment.SetAuthor(m_settings.m_author_name);
+  myComment.SetCommentLength(m_settings.m_comment_length);
   if (m_settings.m_use_date){
     myComment.SetDate(m_settings.m_date.FormatISODate());
   }
-  wxString my_txt = myComment.GenerateComment();
+
+  // generating comments
+  wxString my_txt = myComment.GenerateComment(param);
   if (my_txt == wxEmptyString) {
     wxLogWarning(_("Comment is empty!"));
     return;
@@ -152,7 +168,7 @@ void AnoteFrame::OnFunctionTxtUpdate(wxCommandEvent& event) {
   m_ctrl_function_list->DeleteAllItems();
   for(unsigned int i = 0; i<my_function_parameters_txt.GetCount(); i++){
     m_ctrl_function_list->InsertItem(i, my_function_parameters_txt[i]);
-    m_ctrl_function_list->SetItem(i, 2, m_function_types[0]);
+    m_ctrl_function_list->SetItem(i, 2, AnoteCommentParameters::GetFunctionTypes()[0]);
   }
 
 }
@@ -184,8 +200,8 @@ void AnoteFrame::OnFunctionListDoubleClick(wxListEvent& event) {
     return;
   }
   if (column == 2) {
-    wxSingleChoiceDialog dlg(this, _("Type"), _("Select a type:"), m_function_types);
-    dlg.SetSelection(m_function_types.Index(mytype));
+    wxSingleChoiceDialog dlg(this, _("Type"), _("Select a type:"), AnoteCommentParameters::GetFunctionTypes());
+    dlg.SetSelection(AnoteCommentParameters::GetFunctionTypes().Index(mytype));
     if (dlg.ShowModal() != wxID_OK) {
       return;
     }

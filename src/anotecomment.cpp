@@ -24,36 +24,71 @@ wxVector<AnoteCommentTemplate> init() {
 
 wxVector<AnoteCommentTemplate> AnoteComment::m_templates = init();
 
-AnoteComment::AnoteComment(const wxString& brief, const wxString& filename, const wxString& desc) {
-  m_brief = brief;
-  m_description = desc;
-  m_filename = filename;
-
+AnoteComment::AnoteComment() {
   m_template_index = 0;
+  m_comment_length = 100;
 }
 
-wxString AnoteComment::GenerateComment() {
-  int number_stars = 97;
+wxString AnoteComment::GenerateComment(AnoteCommentParameters param) {
   wxASSERT(m_templates.size() > m_template_index);
-  AnoteCommentTemplate actual_template = m_templates[m_template_index];
+  if (param.m_generic_comment) {
+    return _generate_simple_comment(param);
+  }
+  return _generate_function_comment(param);
+}
 
+wxString AnoteComment::_generate_simple_comment(AnoteCommentParameters param) {
+  AnoteCommentTemplate actual_template = m_templates[m_template_index];
+  int number_stars = m_comment_length - actual_template.m_begin_line_char.Length();
   wxString stars_text(actual_template.m_top_bottom_line_char, number_stars);
   wxString body_text;
-  if (m_filename != wxEmptyString) {
-    body_text << actual_template.m_begin_line_char << " @file " << m_filename << "\n";
+  if (param.m_gen_filename != wxEmptyString) {
+    body_text << actual_template.m_begin_line_char << " @file " << param.m_gen_filename << "\n";
   }
-  if (m_brief != wxEmptyString) {
-    body_text << actual_template.m_begin_line_char << " @brief " << m_brief << "\n";
+  if (param.m_gen_brief != wxEmptyString) {
+    body_text << actual_template.m_begin_line_char << " @brief " << param.m_gen_brief << "\n";
   }
-  if (m_description != wxEmptyString) {
-    wxString myDescription_multiline = m_description;
+  if (param.m_gen_description != wxEmptyString) {
+    wxString myDescription_multiline = param.m_gen_description;
     myDescription_multiline.Replace("\n", "\n " + actual_template.m_begin_line_char);
     body_text << actual_template.m_begin_line_char << " @details " << myDescription_multiline << "\n";
   }
-  if (m_author != wxEmptyString){
+  if (m_author != wxEmptyString) {
     body_text << actual_template.m_begin_line_char << " @author " << m_author << "\n";
   }
-  if (m_date != wxEmptyString){
+  if (m_date != wxEmptyString) {
+    body_text << actual_template.m_begin_line_char << " @date " << m_date << "\n";
+  }
+
+  body_text = body_text.Trim();
+  wxString myComment = wxString::Format(actual_template.m_template, stars_text, body_text, stars_text);
+  return myComment;
+}
+
+wxString AnoteComment::_generate_function_comment(AnoteCommentParameters param) {
+  AnoteCommentTemplate actual_template = m_templates[m_template_index];
+  int number_stars = m_comment_length - actual_template.m_begin_line_char.Length();
+  wxString stars_text(actual_template.m_top_bottom_line_char, number_stars);
+  wxString body_text;
+  if (param.m_function_brief != wxEmptyString) {
+    body_text << actual_template.m_begin_line_char << " @brief " << param.m_function_brief << "\n";
+  }
+  if (param.m_function_description != wxEmptyString) {
+    wxString myDescription_multiline = param.m_function_description;
+    myDescription_multiline.Replace("\n", "\n " + actual_template.m_begin_line_char);
+    body_text << actual_template.m_begin_line_char << " @details " << myDescription_multiline << "\n";
+  }
+  // iterate all parameters
+  for (wxVector<AnoteCommentParameters::function_parmeters>::iterator it = param.m_function_parameters.begin();
+       it != param.m_function_parameters.end(); ++it) {
+    body_text << actual_template.m_begin_line_char << "    " << AnoteCommentParameters::GetFunctionTypes()[it->type];
+    body_text << " " << it->parameters << "  " << it->description << "\n";
+  }
+
+  if (m_author != wxEmptyString) {
+    body_text << actual_template.m_begin_line_char << " @author " << m_author << "\n";
+  }
+  if (m_date != wxEmptyString) {
     body_text << actual_template.m_begin_line_char << " @date " << m_date << "\n";
   }
 
@@ -64,7 +99,8 @@ wxString AnoteComment::GenerateComment() {
 
 wxArrayString AnoteComment::GetTemplateNames() {
   wxArrayString myNames;
-  for(wxVector<AnoteCommentTemplate>::iterator it = AnoteComment::m_templates.begin() ; it != AnoteComment::m_templates.end(); ++it){
+  for (wxVector<AnoteCommentTemplate>::iterator it = AnoteComment::m_templates.begin();
+       it != AnoteComment::m_templates.end(); ++it) {
     myNames.Add(it->m_name);
   }
   return myNames;
@@ -80,4 +116,29 @@ void AnoteComment::SetAuthor(const wxString& mAuthor) {
 
 void AnoteComment::SetDate(const wxString& mDate) {
   m_date = mDate;
+}
+
+void AnoteComment::SetCommentLength(int length) {
+  m_comment_length = length;
+}
+
+AnoteCommentParameters::AnoteCommentParameters() {
+  m_generic_comment = true;
+}
+
+wxArrayString AnoteCommentParameters::GetFunctionTypes() {
+  wxArrayString my_types;
+  my_types.push_back("@param[in]");
+  my_types.push_back("@param[out]");
+  my_types.push_back("@param[in,out]");
+  my_types.push_back("@return");
+  return my_types;
+}
+
+void AnoteCommentParameters::AddFunctionParameter(const wxString& param, const wxString& desc, int type) {
+  function_parmeters myparam;
+  myparam.parameters = param;
+  myparam.description = desc;
+  myparam.type = type;
+  m_function_parameters.push_back(myparam);
 }
