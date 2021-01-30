@@ -38,7 +38,7 @@ void AnoteFrame::_create_statusbar() {
   CreateStatusBar(1);
   wxString myVersion;
   myVersion << "Version: " << Anote_MAJOR_VERSION << "." << Anote_MINOR_VERSION << "." << GIT_NUMBER;
-  myVersion << "(" << GIT_REV << ")";
+  myVersion << " (" << GIT_REV << ")";
   SetStatusText(myVersion, 0);
 }
 
