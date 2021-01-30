@@ -305,7 +305,7 @@ void AnoteFrame::_create_controls() {
   sbSizer2 = new wxStaticBoxSizer(new wxStaticBox(m_ctrl_panel_function, wxID_ANY, _("Description")), wxVERTICAL);
 
   m_ctrl_function_desc =
-      new wxTextCtrl(sbSizer2->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
+      new wxTextCtrl(sbSizer2->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE);
   sbSizer2->Add(m_ctrl_function_desc, 2, wxALL | wxEXPAND, 5);
 
   bSizer6->Add(sbSizer2, 2, wxEXPAND | wxALL, 5);
