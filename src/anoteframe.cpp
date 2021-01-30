@@ -106,7 +106,7 @@ void AnoteFrame::OnGenerate(wxCommandEvent& WXUNUSED(event)) {
   param.m_gen_description = m_ctrl_general_description->GetValue();
   param.m_function_brief = m_ctrl_function_brief->GetValue();
   param.m_function_description = m_ctrl_function_desc->GetValue();
-  for(unsigned int i = 0; i<m_ctrl_function_list->GetItemCount();i++){
+  for(int i = 0; i<m_ctrl_function_list->GetItemCount();i++){
     param.AddFunctionParameter(m_ctrl_function_list->GetItemText(i, 0),
                                m_ctrl_function_list->GetItemText(i, 1),
                                AnoteCommentParameters::GetFunctionTypes().Index(m_ctrl_function_list->GetItemText(i,2)));
@@ -150,7 +150,7 @@ void AnoteFrame::OnSettings(wxCommandEvent& WXUNUSED(event)) {
 
 void AnoteFrame::OnFunctionPaste(wxCommandEvent& WXUNUSED(event)) {
   if (wxTheClipboard->Open()) {
-    if (wxTheClipboard->IsSupported(wxDF_TEXT) or wxTheClipboard->IsSupported(wxDF_UNICODETEXT) or wxTheClipboard->IsSupported(wxDF_HTML)) {
+    if (wxTheClipboard->IsSupported(wxDF_TEXT) || wxTheClipboard->IsSupported(wxDF_UNICODETEXT) || wxTheClipboard->IsSupported(wxDF_HTML)) {
       wxTextDataObject data;
       wxTheClipboard->GetData(data);
       m_ctrl_function_def->SetValue(data.GetText());
@@ -186,8 +186,12 @@ void AnoteFrame::OnFunctionListDoubleClick(wxListEvent& event) {
 
   // get column clicked
   wxPoint mouse_pos = m_ctrl_function_list->ScreenToClient(wxGetMousePosition());
+#if defined(__WXMSW__)  // this works on Windows but didn't work on osx.
+  int x = -m_ctrl_function_list->GetScrollPos(wxHORIZONTAL);
+#else
   wxPoint my_scroll_pos = m_ctrl_function_list->CalcScrolledPosition(mouse_pos);
   int x = my_scroll_pos.x - mouse_pos.x;
+#endif
   int column;
   for (column = 0; column < m_ctrl_function_list->GetColumnCount(); column++) {
     x += m_ctrl_function_list->GetColumnWidth(column);
@@ -216,7 +220,7 @@ void AnoteFrame::OnFunctionListDoubleClick(wxListEvent& event) {
 
 void AnoteFrame::OnFunctionListDelete(wxListEvent& event) {
   int my_key_code = event.GetKeyCode();
-  if (my_key_code == WXK_DELETE or my_key_code == WXK_BACK){
+  if (my_key_code == WXK_DELETE || my_key_code == WXK_BACK){
     m_ctrl_function_list->DeleteItem(event.GetIndex());
   }
   event.Skip();
