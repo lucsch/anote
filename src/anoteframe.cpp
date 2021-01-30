@@ -12,7 +12,7 @@ extern const char* GIT_TAG;
 extern const char* GIT_BRANCH;
 extern const char* GIT_NUMBER;
 
-AnoteFrame::AnoteFrame(const wxString& title) : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(800, 600)) {
+AnoteFrame::AnoteFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title, wxDefaultPosition, wxSize(800, 600)) {
   wxInitAllImageHandlers();
   initialize_images();
   wxIcon frame_icon;
