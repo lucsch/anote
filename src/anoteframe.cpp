@@ -16,9 +16,14 @@ extern const char* GIT_NUMBER;
 AnoteFrame::AnoteFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title, wxDefaultPosition, wxSize(800, 600)) {
   wxInitAllImageHandlers();
   initialize_images();
-  wxIcon frame_icon;
-  frame_icon.CopyFromBitmap(*_img_anote_icon);
-  SetIcon(frame_icon);
+  wxIconBundle myBundle;
+  wxIcon frame_icon16;
+  frame_icon16.CopyFromBitmap(*_img_anote_icon16);
+  wxIcon frame_icon128;
+  frame_icon128.CopyFromBitmap(*_img_anote_icon128);
+  myBundle.AddIcon(frame_icon16);
+  myBundle.AddIcon(frame_icon128);
+  SetIcons(myBundle);
 
   _create_controls();
   _create_menubar();
