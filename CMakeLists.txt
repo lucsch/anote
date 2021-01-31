@@ -15,9 +15,11 @@ FILE (GLOB SRC_FILES src/*.cpp)
 SOURCE_GROUP (source FILES ${SRC_FILES})
 
 # osx icon
+if(APPLE)
 set(MACOSX_BUNDLE_ICON_FILE anote_icon.icns)
 set(ICON_PATH "${CMAKE_SOURCE_DIR}/art/anote_icon.icns")
 set_source_files_properties(${ICON_PATH} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
+endif(APPLE)
 
 include_directories(include)
 add_executable(${PROJECT_NAME} MACOSX_BUNDLE WIN32
