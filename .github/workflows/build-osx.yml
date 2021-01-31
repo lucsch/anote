@@ -51,7 +51,7 @@ jobs:
       working-directory: ${{github.workspace}}/build
       run: |
         conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan -f
-        conan install .. -s build_type=$BUILD_TYPE --build=wxwidgets
+        conan install .. -s build_type=$BUILD_TYPE --build=missing
 
     - name: Configure CMake
       # Use a bash shell so we can use the same syntax for environment variable
