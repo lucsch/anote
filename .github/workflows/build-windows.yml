@@ -65,7 +65,8 @@ jobs:
       shell: bash
       # Execute the build.  You can specify a specific target with "--target <NAME>"
       run: |
-        type  ${{github.workspace}}/build/version.cpp
+        echo %cd%
+        dir
         cmake --build . --config Release
 
 #    - name: upload file
