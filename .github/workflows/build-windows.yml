@@ -6,9 +6,6 @@ name: build-Windows
 
 on: [push]
 
-env:
-  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  BUILD_TYPE: Release
 
 jobs:
   build:
@@ -51,7 +48,7 @@ jobs:
       working-directory: ${{github.workspace}}/build
       run: |
         conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan -f
-        conan install .. -s build_type=$BUILD_TYPE --build=missing
+        conan install .. -s build_type=Release --build=missing
 
     - name: Configure CMake
       # Use a bash shell so we can use the same syntax for environment variable
@@ -61,13 +58,15 @@ jobs:
       # Note the current convention is to use the -S and -B options here to specify source 
       # and build directories, but this is only available with CMake 3.13 and higher.  
       # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-      run: cmake $GITHUB_WORKSPACE -G "Visual Studio 16 2019" -A x64
+      run: cmake .. -G "Visual Studio 16 2019" -A x64
 
     - name: Build
       working-directory: ${{github.workspace}}/build
       shell: bash
       # Execute the build.  You can specify a specific target with "--target <NAME>"
-      run: cmake --build . --config $BUILD_TYPE
+      run: |
+        type version.cpp
+        cmake --build . --config Release
 
 #    - name: upload file
 #      uses: xresloader/upload-to-github-release@v1
