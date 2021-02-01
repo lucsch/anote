@@ -47,7 +47,10 @@ jobs:
         conan install .. -s build_type=Release --build=missing
 
     - name: Configure CMake
-      run: cmake .. -G "Visual Studio 16 2019" -A x64
+      run: |
+        dir
+        cmake .. -G "Visual Studio 16 2019" -A x64
+
 
     - name: Build
       run: cmake --build . --config Release
