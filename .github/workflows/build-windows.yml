@@ -48,12 +48,14 @@ jobs:
 
     - name: Configure CMake
       run: |
-        dir
+        cd build
         cmake .. -G "Visual Studio 16 2019" -A x64
 
 
     - name: Build
-      run: cmake --build . --config Release
+      run: |
+        cd build
+        cmake --build . --config Release
 
 #    - name: upload file
 #      uses: xresloader/upload-to-github-release@v1
