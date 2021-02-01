@@ -55,6 +55,8 @@ jobs:
     - name: Build
       run: |
         cd build
+        dir
+        cat version.cpp
         cmake --build . --config Release
 
 #    - name: upload file
