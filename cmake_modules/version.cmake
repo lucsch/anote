@@ -15,9 +15,11 @@ if ("${GIT_REV}" STREQUAL "")
     set(GIT_BRANCH "N/A")
     set(GIT_NUMBER "N/A")
 else ()
-    execute_process(
-            COMMAND bash -c "git diff --quiet --exit-code || echo +"
-            OUTPUT_VARIABLE GIT_DIFF)
+    if (NOT CONTINOUS_INTEGRATION)
+        execute_process(
+                COMMAND bash -c "git diff --quiet --exit-code || echo +"
+                OUTPUT_VARIABLE GIT_DIFF)
+    endif ()
     execute_process(
             COMMAND git describe --exact-match --tags
             OUTPUT_VARIABLE GIT_TAG ERROR_QUIET)

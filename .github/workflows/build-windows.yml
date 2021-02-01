@@ -49,14 +49,12 @@ jobs:
     - name: Configure CMake
       run: |
         cd build
-        cmake .. -G "Visual Studio 16 2019" -A x64
+        cmake .. -G "Visual Studio 16 2019" -A x64 -DCONTINOUS_INTEGRATION=1
 
 
     - name: Build
       run: |
         cd build
-        dir
-        cat version.cpp
         cmake --build . --config Release
 
 #    - name: upload file
