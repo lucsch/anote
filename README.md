@@ -2,7 +2,7 @@
 
 Small utility for building code comments compatible with doxygen. It actually works with C++ and Python codes.
 
-![anote logo](art/anote_icon.png)
+![anote logo](art/Anote_icon.png)
 
 ## Releases
 Download latest release from the [release](https://github.com/lucsch/anote/releases/latest) page.
