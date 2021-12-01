@@ -54,6 +54,12 @@ jobs:
         type version.cpp
         conan build ..
 
+    - name: Display
+      run: |
+        cd build
+        dir
+        type version.cpp
+
 #    - name: upload file
 #      uses: xresloader/upload-to-github-release@v1
 #      env:
