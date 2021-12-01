@@ -43,19 +43,14 @@ jobs:
     - name: Install Conan Libraries
       run: |
         cd build
-        conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan -f
-        conan install .. -s build_type=Release --build=missing
-
-    - name: Configure CMake
-      run: |
-        cd build
-        cmake .. -G "Visual Studio 16 2019" -A x64 -DCONTINOUS_INTEGRATION=1
-
+        conan remote add gitlab https://gitlab.com/api/v4/packages/conan
+        conan user gitlab+deploy-token-653038 -r gitlab -p sBwmejFz5Pn-gZPSNFMy
+        conan install ..
 
     - name: Build
       run: |
         cd build
-        cmake --build . --config Release
+        conan build ..
 
 #    - name: upload file
 #      uses: xresloader/upload-to-github-release@v1
