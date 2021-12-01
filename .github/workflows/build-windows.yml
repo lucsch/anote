@@ -50,15 +50,19 @@ jobs:
     - name: Build
       run: |
         cd build
-        dir
-        type version.cpp
-        conan build ..
+        cmake .. -G "Visual Studio 16 2019" -A x64 -DCONTINOUS_INTEGRATION=1
+#       conan build ..
 
     - name: Display
       run: |
         cd build
         dir
         type version.cpp
+
+    - name: Build2
+      run: |
+        cd build
+        cmake --build . --config Release
 
 #    - name: upload file
 #      uses: xresloader/upload-to-github-release@v1
