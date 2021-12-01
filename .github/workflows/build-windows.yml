@@ -50,6 +50,7 @@ jobs:
     - name: Build
       run: |
         cd build
+        dir
         type version.cpp
         conan build ..
 

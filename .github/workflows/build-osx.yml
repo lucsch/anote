@@ -50,7 +50,7 @@ jobs:
       shell: bash
       working-directory: ${{github.workspace}}/build
       run: |
-        conan remote add gitlab https://gitlab.com/api/v4/packages/conan
+        conan remote add gitlab https://gitlab.com/api/v4/packages/conan -f
         conan user gitlab+deploy-token-653038 -r gitlab -p sBwmejFz5Pn-gZPSNFMy
         conan install ..
 
