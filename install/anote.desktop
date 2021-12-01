@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=3
+Type=Application
+Terminal=false
+Exec=/usr/bin/Anote
+Name=Anote
+Icon=/usr/share/icons/Anote_icon.png
+Categories=Development
