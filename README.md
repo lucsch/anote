@@ -16,19 +16,11 @@ You will need the following tools :
 
 ### Install the libraries
 
-    conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-    mkir cmake-build-debug && cd cmake-build-debug
-    conan install .. -s build_type=Release
+    conan remote add gitlab https://gitlab.com/api/v4/packages/conan
+    conan user gitlab+deploy-token-653038 -r gitlab -p sBwmejFz5Pn-gZPSNFMy
 
 ### Create and build the Project / Solution
 
-- Windows:
-  
-        cmake .. -G "Visual Studio 16 2019" -A x64
-        cmake --build . --config Release 
-
-- Unix / OSX
-
-        cmake .. 
-        cmake --build
+    mkdir cmake-build-release && cd cmake-build-release
+    conan build .. or conan build .. -s build_type=Debug
 
