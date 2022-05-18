@@ -14,13 +14,14 @@ wxVector<AnoteCommentTemplate> init() {
   AnoteCommentTemplate t2;
   t2.m_name = "Python Hashtag (#)";
   t2.m_template = "###%s\n%s\n###%s";
-  t2.m_begin_line_char = "###";
+  t2.m_begin_line_char = "#";
   t2.m_top_bottom_line_char = '#';
 
   v.push_back(t1);
   v.push_back(t2);
   return v;
 };
+
 
 wxVector<AnoteCommentTemplate> AnoteComment::m_templates = init();
 
