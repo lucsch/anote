@@ -3,7 +3,7 @@ from conans import ConanFile, CMake
 
 class Anote(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
-    requires = ["wxwidgets/3.1.7@terranum-conan+wxwidgets/stable"]
+    requires = ["wxwidgets/3.2.0@terranum-conan+wxwidgets/stable"]
 
     generators = "cmake", "gcc", "txt"
 
