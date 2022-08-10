@@ -26,3 +26,8 @@ You will need the following tools :
     mkdir cmake-build-release && cd cmake-build-release
     conan build .. or conan build .. -s build_type=Debug
 
+### Screenshot
+
+Anote GTK2 vs GTK3
+
+![GTK](doc/screenshots/gtk2-vs-gtk3.png)

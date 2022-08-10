@@ -7,9 +7,10 @@ class Anote(ConanFile):
 
     generators = "cmake", "gcc", "txt"
 
-    def configure(self):
-        if self.settings.os == "Linux":
-            self.options["wxwidgets"].webview = False # webview control isn't available on linux.
+    # this isn't needed anymore with wxWidgets 3.2.0 (using GTK 3.0)
+    #def configure(self):
+    #    if self.settings.os == "Linux":
+    #        self.options["wxwidgets"].webview = False # webview control isn't available on linux.
 
     def imports(self):
         self.copy("*.dll", dst="bin", src="bin")  # From bin to bin
