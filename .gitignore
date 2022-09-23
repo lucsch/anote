@@ -1,4 +1,5 @@
 /cmake-build-*
+/_install
 
 .idea/
 .vscode/
