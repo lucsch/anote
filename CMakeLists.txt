@@ -29,6 +29,11 @@ add_executable(${PROJECT_NAME} MACOSX_BUNDLE WIN32
 		src/resource.rc)
 target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
 
+if(UNIX AND NOT APPLE)
+	find_package(PNG REQUIRED)
+	target_link_libraries(${PROJECT_NAME} ${PNG_LIBRARY})
+endif(UNIX AND NOT APPLE)
+
 install(TARGETS ${PROJECT_NAME}
 		RUNTIME DESTINATION bin
 		LIBRARY DESTINATION bin

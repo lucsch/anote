@@ -7,10 +7,10 @@ class Anote(ConanFile):
 
     generators = "cmake", "gcc", "txt"
 
-    # this isn't needed anymore with wxWidgets 3.2.0 (using GTK 3.0)
-    #def configure(self):
-    #    if self.settings.os == "Linux":
-    #        self.options["wxwidgets"].webview = False # webview control isn't available on linux.
+    def configure(self):
+       if self.settings.os == "Linux":
+           # self.options["wxwidgets"].webview = False # webview control isn't available on linux.
+           self.options["wxwidgets"].png = "system" # use png sys lib on linux, otherwise leads to a crash.
 
     def imports(self):
         self.copy("*.dll", dst="bin", src="bin")  # From bin to bin
