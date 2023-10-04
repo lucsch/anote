@@ -1,14 +1,12 @@
 cmake_minimum_required(VERSION 3.0)
 project(Anote)
 
-# cmake magical command for conan
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
-
 # using git version
 set(${PROJECT_NAME}_MAJOR_VERSION "3")
 set(${PROJECT_NAME}_MINOR_VERSION "1")
 include(cmake_modules/version.cmake)
+
+find_package(wxWidgets CONFIG REQUIRED)
 
 #search all source files
 FILE (GLOB SRC_FILES src/*.cpp)
@@ -21,18 +19,12 @@ if(APPLE)
 	set_source_files_properties(${ICON_PATH} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
 endif(APPLE)
 
-include_directories(include)
 add_executable(${PROJECT_NAME} MACOSX_BUNDLE WIN32
 		${SRC_FILES}
 		${CMAKE_BINARY_DIR}/version.cpp
 		${ICON_PATH}
 		src/resource.rc)
-target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
-
-if(UNIX AND NOT APPLE)
-	find_package(PNG REQUIRED)
-	target_link_libraries(${PROJECT_NAME} ${PNG_LIBRARY})
-endif(UNIX AND NOT APPLE)
+target_link_libraries(${PROJECT_NAME} wx::core wx::base)
 
 install(TARGETS ${PROJECT_NAME}
 		RUNTIME DESTINATION bin

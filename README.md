@@ -11,20 +11,14 @@ Download latest release from the [release](https://github.com/lucsch/anote/relea
 You will need the following tools :
 
 - A recent compiler for C++
-- Conan (https://conan.io)
+- vcpkg (https://vcpkg.io/en/)
 - CMake
-
-### Install the libraries
-
-    conan remote add gitlab https://gitlab.com/api/v4/packages/conan
-    conan user gitlab+deploy-token-653038 -r gitlab -p sBwmejFz5Pn-gZPSNFMy
-    conan profile update settings.compiler.libcxx=libstdc++11 default
-    conan install .. 
 
 ### Create and build the Project / Solution
 
     mkdir cmake-build-release && cd cmake-build-release
-    conan build .. or conan build .. -s build_type=Debug
+    cmake -B [build directory] -S . -DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake 
+    cmake --build [build directory]
 
 ### Screenshot
 
