@@ -19,6 +19,8 @@ You will need the following tools :
     mkdir cmake-build-release && cd cmake-build-release
     cmake -B [build directory] -S . -DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake 
     cmake --build [build directory]
+    cd [build directory]
+    cpack -G DEB
 
 ### Screenshot
 
