@@ -57,14 +57,15 @@ wxString AnoteComment::_generate_mcu_comment(AnoteCommentParameters param) {
         wxLogError("Number of pins should be even!");
         return wxEmptyString;
     }
+
     if (param.m_mcu_type == 0) { // LEFT / RIGHT type
-        body_text << "         ______  \n";
+        body_text << actual_template.m_begin_line_char << "         ______  \n";
         for (int i = 0; i < param.m_mcu_pins / 2; i++) {
             if (i == (param.m_mcu_pins / 2)-1){
-                body_text << "    ----|______|----    " << "\n";
+                body_text << actual_template.m_begin_line_char << "    ----|______|----    " << "\n";
                 continue;
             }
-            body_text << "    ----|      |----    " << "\n";
+            body_text << actual_template.m_begin_line_char << "    ----|      |----    " << "\n";
         }
     } else {  // SQUARE TYPE
         body_text = _("Not implemented");
