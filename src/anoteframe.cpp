@@ -112,9 +112,10 @@ void AnoteFrame::OnGenerate(wxCommandEvent & WXUNUSED(event)) {
                                    AnoteCommentParameters::GetFunctionTypes().Index(
                                            m_ctrl_function_list->GetItemText(i, 2)));
     }
-    if (m_ctrl_notebook->GetSelection() == 1) {
-        param.m_generic_comment = false;
-    }
+    param.m_mcu_pins = m_ctrl_number_pins->GetValue();
+    param.m_mcu_type = m_ctrl_form_factor->GetSelection();
+
+    param.m_selected_panel = m_ctrl_notebook->GetSelection();
 
     // sending settigns to the comment
     AnoteComment myComment;
