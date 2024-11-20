@@ -14,6 +14,32 @@ You will need the following tools :
 - vcpkg (https://vcpkg.io/en/)
 - CMake
 
+### Install vcpkg
+
+Step 1: Install vcpkg
+
+Clone the vcpkg repository:
+
+        git clone https://github.com/microsoft/vcpkg.git "$HOME/vcpkg"
+        cd "$HOME/vcpkg"
+
+Bootstrap vcpkg:
+
+        ./bootstrap-vcpkg.sh
+
+(Optional, but recommended) Integrate vcpkg with your system:
+
+        ./vcpkg integrate install
+
+Setup environment variables
+
+        export VCPKG_ROOT="$HOME/vcpkg"
+
+### Needed libraries on Linux
+
+        sudo apt install install autoconf libtool 
+        sudo apt install libx11-dev libxft-dev libxext-dev libwayland-dev libxkbcommon-dev libegl1-mesa-dev libibus-1.0-dev libgles2-mesa-dev
+
 ### Create and build the Project / Solution
 
     mkdir cmake-build-release && cd cmake-build-release
