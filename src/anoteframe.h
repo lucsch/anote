@@ -9,6 +9,7 @@
 #include "settings.h"
 #include "wx/listctrl.h"
 #include "wx/notebook.h"
+#include <wx/spinctrl.h>
 
 class AnoteFrame : public wxFrame {
  public:
@@ -43,6 +44,9 @@ class AnoteFrame : public wxFrame {
   wxTextCtrl* m_ctrl_function_brief;
   wxTextCtrl* m_ctrl_function_desc;
   wxListCtrl* m_ctrl_function_list;
+  wxPanel* m_ctrl_panel_mcu;
+  wxSpinCtrl* m_ctrl_number_pins;
+  wxRadioBox* m_ctrl_form_factor;
 
   wxMenuItem* m_menu_generate;
   wxMenuItem* m_menu_settings;
