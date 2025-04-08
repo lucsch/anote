@@ -1,9 +1,11 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.5)
 project(Anote)
 
 # cmake magical command for conan
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
+#include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+#conan_basic_setup()
+
+find_package(wxWidgets REQUIRED)
 
 # using git version
 set(${PROJECT_NAME}_MAJOR_VERSION "3")
@@ -27,12 +29,13 @@ add_executable(${PROJECT_NAME} MACOSX_BUNDLE WIN32
 		${CMAKE_BINARY_DIR}/version.cpp
 		${ICON_PATH}
 		src/resource.rc)
-target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
+#target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
+target_link_libraries(${PROJECT_NAME} wxWidgets::wxWidgets)
 
-if(UNIX AND NOT APPLE)
+#[[if(UNIX AND NOT APPLE)
 	find_package(PNG REQUIRED)
 	target_link_libraries(${PROJECT_NAME} ${PNG_LIBRARY} xkbcommon)
-endif(UNIX AND NOT APPLE)
+endif(UNIX AND NOT APPLE)]]
 
 install(TARGETS ${PROJECT_NAME}
 		RUNTIME DESTINATION bin
