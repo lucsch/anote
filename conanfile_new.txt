@@ -1,5 +1,5 @@
 [requires]
-wxwidgets/3.2.6
+wxwidgets/3.2.8
 
 [generators]
 CMakeDeps

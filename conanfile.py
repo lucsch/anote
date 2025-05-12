@@ -3,9 +3,9 @@ from conans import ConanFile, CMake
 
 class Anote(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
-    requires = ["wxwidgets/3.2.7@terranum-conan+wxwidgets/stable"]
+    requires = ["wxwidgets/3.2.8@terranum-conan+wxwidgets/stable"]
 
-    generators = "cmake", "gcc", "txt"
+    generators = "cmake_find_package", "cmake_paths",
 
     def configure(self):
        if self.settings.os == "Linux":
