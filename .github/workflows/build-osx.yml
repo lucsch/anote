@@ -45,7 +45,8 @@ jobs:
       run: |
         conan remote add gitlab https://gitlab.com/api/v4/packages/conan -f
         conan user gitlab+deploy-token-653038 -r gitlab -p sBwmejFz5Pn-gZPSNFMy
-        conan install ..
+        conan install .. --build=missing
+        conan upload wxwidgets/3.2.8@terranum-conan+wxwidgets/stable --remote=gitlab -q 'build_type=Release' 
 
     - name: Build
       working-directory: ${{github.workspace}}/build
