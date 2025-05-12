@@ -2,13 +2,12 @@ cmake_minimum_required(VERSION 3.15)
 project(Anote)
 
 # cmake magical command for conan
-#include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-#conan_basic_setup(TARGETS)
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
 
 # adjust conan paths
-include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
-
-find_package(wxwidgets REQUIRED)
+#include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
+#find_package(wxwidgets REQUIRED)
 
 # using git version
 set(${PROJECT_NAME}_MAJOR_VERSION "3")
@@ -26,19 +25,16 @@ if(APPLE)
 	set_source_files_properties(${ICON_PATH} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
 endif(APPLE)
 
-#include_directories(include)
-include_directories(${wxwidgets_INCLUDE_DIRS})
-add_compile_definitions(${wxwidgets_DEFINITIONS})
-message("wxWidgets definitions: ${wxwidgets_DEFINITIONS}")
-MESSAGE("Include directories: ${wxwidgets_INCLUDE_DIRS}")
+include_directories(${CONAN_INCLUDE_DIRS})
+message(STATUS "Conan include directories: ${CONAN_INCLUDE_DIRS}")
 
 add_executable(${PROJECT_NAME} MACOSX_BUNDLE WIN32
 		${SRC_FILES}
 		${CMAKE_BINARY_DIR}/version.cpp
 		${ICON_PATH}
 		src/resource.rc)
-#target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
-target_link_libraries(${PROJECT_NAME} ${wxwidgets_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
+#target_link_libraries(${PROJECT_NAME} ${wxwidgets_LIBRARIES})
 
 if(UNIX AND NOT APPLE)
 	find_package(PNG REQUIRED)

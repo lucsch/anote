@@ -5,7 +5,7 @@ class Anote(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     requires = ["wxwidgets/3.2.8@terranum-conan+wxwidgets/stable"]
 
-    generators = "cmake_find_package", "cmake_paths",
+    generators = "cmake"
 
     def configure(self):
        if self.settings.os == "Linux":
