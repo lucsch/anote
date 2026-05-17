@@ -6,6 +6,10 @@ name: build-Windows
 
 on: [push]
 
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
 jobs:
   build:
     # The CMake configure and build commands are platform agnostic and should work equally
@@ -15,7 +19,7 @@ jobs:
     runs-on: windows-2022
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
@@ -27,23 +31,14 @@ jobs:
     - name: Install Conan
       run: |
         python -m pip install --upgrade pip
-        pip install conan==1.*
-
-    - name: Create Build Environment
-      # Some projects don't allow in-source building, so create a separate build directory
-      # We'll use this as our working directory for all subsequent commands
-      run: cmake -E make_directory ${{github.workspace}}/build
+        pip install "conan>=2,<3"
+        conan profile detect --force
 
     - name: Install Conan Libraries
-      working-directory: ${{github.workspace}}/build
-      run: |
-        conan remote add gitlab https://gitlab.com/api/v4/packages/conan -f
-        conan install .. --build=missing
+      run: conan install . --build=missing -s build_type=${{ env.BUILD_TYPE }}
 
     - name: Build
-      working-directory: ${{github.workspace}}/build
-      # Execute the build.  You can specify a specific target with "--target <NAME>"
-      run: conan build ..
+      run: conan build . -s build_type=${{ env.BUILD_TYPE }}
 
 #    - name: upload file
 #      uses: xresloader/upload-to-github-release@v1
@@ -54,4 +49,3 @@ jobs:
 #        tags: true
 #        draft: true
 #        verbose: true
-
