@@ -1,6 +1,18 @@
 /cmake-build-*
+/build/
 /_install
+
+# Conan 2 / CMake generated files
+/CMakeUserPresets.json
+/**/generators/
+/**/conan_toolchain.cmake
+/**/conandeps_legacy.cmake
+/**/conanbuild.*
+/**/conanrun.*
+/**/deactivate_conanbuild.*
+/**/deactivate_conanrun.*
+/**/conanbuildenv-*
+/**/conanrunenv-*
 
 .idea/
 .vscode/
-

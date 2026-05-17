@@ -16,15 +16,17 @@ You will need the following tools :
 
 ### Install the libraries
 
-    conan remote add gitlab https://gitlab.com/api/v4/packages/conan
-    conan user gitlab+deploy-token-653038 -r gitlab -p sBwmejFz5Pn-gZPSNFMy
-    conan profile update settings.compiler.libcxx=libstdc++11 default
-    conan install .. 
+    conan profile detect --force
+    conan install . --build=missing -s build_type=Release
 
 ### Create and build the Project / Solution
 
-    mkdir cmake-build-release && cd cmake-build-release
-    conan build .. or conan build .. -s build_type=Debug
+    conan build . -s build_type=Release
+
+For a debug build:
+
+    conan install . --build=missing -s build_type=Debug
+    conan build . -s build_type=Debug
 
 ### Screenshot
 

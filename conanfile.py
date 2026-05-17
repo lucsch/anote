@@ -1,20 +1,18 @@
-from conans import ConanFile, CMake
+from conan import ConanFile
+from conan.tools.cmake import CMake, cmake_layout
 
 
-class Anote(ConanFile):
+class AnoteRecipe(ConanFile):
+    name = "anote"
+    version = "3.1"
     settings = "os", "compiler", "build_type", "arch"
-    requires = ["wxwidgets/3.3.0@terranum-conan+wxwidgets/stable"]
+    generators = "CMakeDeps", "CMakeToolchain"
 
-    generators = "cmake"
+    def requirements(self):
+        self.requires("wxwidgets/3.3.2")
 
-    def configure(self):
-       if self.settings.os == "Linux":
-           # self.options["wxwidgets"].webview = False # webview control isn't available on linux.
-           self.options["wxwidgets"].png = "system" # use png sys lib on linux, otherwise leads to a crash.
-
-    def imports(self):
-        self.copy("*.dll", dst="bin", src="bin")  # From bin to bin
-        self.copy("*.dylib*", dst="bin", src="lib")  # From lib to bin
+    def layout(self):
+        cmake_layout(self)
 
     def build(self):
         cmake = CMake(self)
