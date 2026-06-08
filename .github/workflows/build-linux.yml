@@ -38,7 +38,6 @@ jobs:
         sudo apt-get install libxcb-image0-dev libxcb-keysyms1-dev libxcb-randr0-dev libxcb-shape0-dev libxcb-sync-dev
         sudo apt-get install libxcb-xfixes0-dev libxcb-xinerama0-dev libxcb-dri3-dev libxcb-util-dev
         sudo apt-get install libpng-dev
-        sudo apt-get install libgpg-error-dev
 
     - name: Install libraries
       run: >
