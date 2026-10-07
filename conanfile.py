@@ -7,15 +7,14 @@ class AnoteRecipe(ConanFile):
     version = "3.1"
     settings = "os", "compiler", "build_type", "arch"
     generators = "CMakeDeps", "CMakeToolchain"
-    # default_options = {
-    #     "wxwidgets/*:secretstore": False,
-    # }
 
     def requirements(self):
         self.requires("wxwidgets/3.3.3")
-        # if self.settings.os == "Linux":
-        #     # conflict between wxwidgets 3.3.2 and libtiff/4.6.0
-        #     self.requires("libwebp/1.6.0", override=True)
+        # Match the dependency versions used by ConanCenter's wxWidgets binaries.
+        # Newer minor versions change package IDs, even with the same profiles.
+        self.requires("expat/2.8.5", override=True)
+        if self.settings.os == "Linux":
+            self.requires("libcurl/8.21.0", override=True)
 
     def layout(self):
         cmake_layout(self)

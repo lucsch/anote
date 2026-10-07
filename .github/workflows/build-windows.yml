@@ -9,6 +9,8 @@ on: [push]
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
+  CONAN_LOCKFILE: wxwidgets-conan.lock
+  CONAN_PROFILE: windows-x86_64-msvc194-release
 
 jobs:
   build:
@@ -34,15 +36,40 @@ jobs:
         pip install "conan>=2,<3"
         conan config install https://gitlab.com/terranum-conan/conan-profile.git
 
+    - name: Cache Conan packages
+      uses: actions/cache@v4
+      with:
+        path: ${{ runner.temp }}/conan-cache.tgz
+        key: conan-v1-${{ runner.os }}-${{ runner.arch }}-${{ env.CONAN_PROFILE }}-${{ hashFiles('conanfile.py', 'wxwidgets-conan.lock') }}-${{ github.run_id }}-${{ github.run_attempt }}
+        restore-keys: |
+          conan-v1-${{ runner.os }}-${{ runner.arch }}-${{ env.CONAN_PROFILE }}-${{ hashFiles('conanfile.py', 'wxwidgets-conan.lock') }}-
+          conan-v1-${{ runner.os }}-${{ runner.arch }}-${{ env.CONAN_PROFILE }}-
+
+    - name: Restore Conan packages
+      shell: bash
+      run: |
+        if [ -f "${{ runner.temp }}/conan-cache.tgz" ]; then
+          conan cache restore "${{ runner.temp }}/conan-cache.tgz"
+        fi
+
     - name: Install Conan Libraries
       run: >
-        conan install . 
+        conan install . --build=missing
+        --lockfile=${{ env.CONAN_LOCKFILE }}
         -s build_type=${{ env.BUILD_TYPE }}
-        -pr:h=windows-x86_64-msvc194-release 
-        -pr:b=windows-x86_64-msvc194-release
+        -pr:h=${{ env.CONAN_PROFILE }}
+        -pr:b=${{ env.CONAN_PROFILE }}
+
+    - name: Save Conan packages
+      run: conan cache save "*:*" --file="${{ runner.temp }}/conan-cache.tgz"
 
     - name: Build
-      run: conan build . -s build_type=${{ env.BUILD_TYPE }}
+      run: >
+        conan build .
+        --lockfile=${{ env.CONAN_LOCKFILE }}
+        -s build_type=${{ env.BUILD_TYPE }}
+        -pr:h=${{ env.CONAN_PROFILE }}
+        -pr:b=${{ env.CONAN_PROFILE }}
 
 #    - name: upload file
 #      uses: xresloader/upload-to-github-release@v1
