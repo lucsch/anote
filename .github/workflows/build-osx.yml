@@ -33,11 +33,15 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install wheel "conan>=2,<3"
-        conan profile detect --force
+        conan config install https://gitlab.com/terranum-conan/conan-profile.git
 
     - name: Install Conan Libraries
       shell: bash
-      run: conan install . --build=missing -s build_type=${{ env.BUILD_TYPE }}
+      run: >
+        conan install . 
+        -s build_type=${{ env.BUILD_TYPE }}
+        -pr:h=macos-arm64-clang17-release
+        -pr:b=macos-arm64-clang17-release
 
     - name: Build
       shell: bash
